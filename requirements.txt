@@ -1,0 +1,6 @@
+flask==3.0.*
+opencv-python-headless
+numpy
+pillow==10.*
+requests==2.*
+gunicorn==23.*
