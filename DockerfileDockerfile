@@ -1,0 +1,23 @@
+FROM python:3.10-slim
+
+# Instalar dependencias del sistema para OpenCV
+RUN apt-get update && apt-get install -y \
+    libglib2.0-0 \
+        && rm -rf /var/lib/apt/lists/*
+
+        WORKDIR /app
+
+        COPY requirements.txt .
+        RUN pip install --no-cache-dir -r requirements.txt
+
+        COPY . .
+
+        # Crear directorios necesarios
+        RUN mkdir -p uploads models
+
+        # Exponer el puerto
+        EXPOSE 5000
+
+        # Comando para ejecutar con Gunicorn para mayor estabilidad
+        CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--timeout", "120", "app:app"]
+        
